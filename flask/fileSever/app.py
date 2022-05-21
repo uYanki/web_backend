@@ -1,5 +1,6 @@
 from distutils.command.upload import upload
 import os
+import string
 
 from flask import Flask, jsonify, render_template, send_from_directory, url_for, request
 from flask_cors import CORS
@@ -42,9 +43,13 @@ def oper_disk(path=''):
     for root, dirs, files in os.walk(os.path.join(upload_path, path)):
         print(dirs, files, root)
         for dir in dirs:
-            url_dirs.append({"name": dir, "url": url_for('enum_disk', dirpath=path + "/" + dir)})
+            url_dirs.append({"name": dir,
+                             "path": path + '/' + dir,
+                             "url": url_for('enum_disk', dirpath=path + '/' + dir)})  # 用 os.path.join 会导致 json 里错乱
         for file in files:
-            url_files.append({"name": file, "url": url_for('fench_file', filepath=path + "/" + file)})
+            url_files.append({"name": file,
+                              "path": path + '/' + file,
+                              "url": url_for('fench_file', filepath=path + '/' + file)})
         break
     return jsonify(path=url_path, dirs=url_dirs, files=url_files)
 
