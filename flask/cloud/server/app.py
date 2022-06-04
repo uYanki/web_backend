@@ -56,6 +56,7 @@ def oper_disk(path=''):
 
 @ app.route('/api/get_file/<path:filepath>')
 def fench_file(filepath):
+    print('/api/get_file/' + filepath)
     return send_from_directory(upload_path, filepath)
 
 
