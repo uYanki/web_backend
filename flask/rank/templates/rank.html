@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{{ url_for('static',filename='css/bootstrap.min.css') }}" rel="stylesheet">
-    <script src="{{ url_for('static',filename='js/vue.js') }}" ></script>
-    <script src="{{ url_for('static',filename='js/axios.min.js') }}" ></script>
-    <title>Rank</title>
+    <script src="{{ url_for('static',filename='js/vue.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/axios.min.js') }}"></script>
+    <title>Rank</title>a
 </head>
 
 <body>
@@ -16,15 +16,14 @@
         <h1>Rank</h1>
         <hr>
         <div style="margin-bottom: 20px;">
-                <input type="text" class="form-control" v-model="keyword" v-on:input="search" placeholder="your name">
+            <input type="text" class="form-control" v-model="keyword" v-on:input="search" placeholder="your name">
 
         </div>
         <div v-if="data_ranklist.length>0">
 
             <ul class="list-group">
                 <li class="list-group-item" v-for="(item,index) in data_ranklist">
-                    <span style="padding:2px 5px;margin:4px;Border-radius:3px;"
-                        :style="style_index[index]">{{index+1}}</span>
+                    <span style="padding:2px 5px;margin:4px;Border-radius:3px;" :style="style_index[index]">{{index+1}}</span>
                     <span>{{item.name}}<small style="margin: 5px; color:deeppink;">{{item.score}}</small></span>
                     <small style="margin: 5px 10px; color:grey;position: absolute; right:0px">{{item.datetime}}</small>
                 </li>
@@ -50,26 +49,26 @@
                     "background: #CCCCFF;color: white;",
                 ],
                 data_ranklist: [], // 排行数据
-                keyword:""
+                keyword: ""
             },
             methods: {
-                search:function(){
+                search: function () {
                     this.getRank();
                 },
-                getRank:function(){
-                    let that=this;
-                    axios.get('http://127.0.0.1:5000/api/rank?keyword='+that.keyword)
-                        .then(function(res){
-                            that.data_ranklist=res.data;
+                getRank: function () {
+                    let that = this;
+                    axios.get('http://127.0.0.1:5000/api/rank?keyword=' + that.keyword)
+                        .then(function (res) {
+                            that.data_ranklist = res.data;
                         })
-                        .catch(function(error){
-                        console.log(error);
+                        .catch(function (error) {
+                            console.log(error);
                         })
                 }
             },
             created: function () {
                 this.getRank();
-                setInterval(this.getRank, 10000);//使用定时器定时更新数据
+                // setInterval(this.getRank, 10000);//使用定时器定时更新数据
             },
         })
     </script>

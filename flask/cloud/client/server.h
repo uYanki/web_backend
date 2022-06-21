@@ -13,7 +13,7 @@
 #include "QtNetwork"
 
 const QString server_address  = "http://uykweb.xicp.io"; // "http://127.0.0.1:5000";
-const QString api_fench_file  = server_address + "/api/get_file";    // http.get
+const QString api_fench_file  = server_address + "/api/get_file/";    // http.get
 const QString api_upload_file = server_address + "/api/oper_disk/";  // http.post
 const QString api_list_dir    = server_address + "/api/oper_disk/";  // http.get
 

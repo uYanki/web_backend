@@ -1,6 +1,4 @@
-from distutils.command.upload import upload
 import os
-import string
 
 from flask import Flask, jsonify, render_template, send_from_directory, url_for, request
 from flask_cors import CORS
@@ -16,6 +14,7 @@ upload_path = './data'
 ########### 信息查看 ###########
 
 
+@app.route('/', methods=['GET'], strict_slashes=False)
 @app.route('/disk', methods=['GET'], strict_slashes=False)
 @app.route('/disk/<path:dirpath>', methods=['GET'], strict_slashes=False)
 def enum_disk(dirpath=''):  # localhost:5000/disk
