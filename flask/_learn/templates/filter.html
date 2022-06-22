@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模板过滤器</title>
+</head>
+
+<body>
+
+    <div>
+        {{name }}
+        {{name|length}}
+    </div>
+
+
+
+
+    <div>
+        {% if id <18 %}
+        0
+        {% elif id >18 %}
+        9999
+        {% else %}
+        {{ -666|abs }}
+        {% endif %}
+    </div>
+
+    <!-- 在for循环内, 获取当前的遍历状态:
+        loop.index	当前迭代的索引(从1开始)
+        loop.index0	当前迭代的索引(从0开始)
+        loop.first	是否是第一次迭代,返回True或False
+        loop.last	是否是最后一次迭代,返回True或False
+        loop.length	序列的长度
+        不可以使用continue和break表达式来控制循环的执行
+     -->
+
+    <div>
+        {% for fav in favs  %}
+        {{loop.index0}},{{loop.index}},{{loop.first}},{{loop.last}},{{fav}}<br>
+        {% endfor %}
+    </div>
+
+    <div>
+        {% for key,value in infos.items()  %}
+        {{key}}:{{value}}<br>
+        {% endfor %}
+    </div>
+
+
+
+    {% raw %}
+    <!--  
+        常用模板过滤器:
+        变量默认值 default(value,default_value,boolean=false):{{ name|default('uyk') }} 
+        format(value,*arags,**kwargs):格式化字符串: {{ "%s" - "%s"|format('Hello?',"Foo!") }}
+        取文本长度 length(value):{{ name|length }} 
+        序列中第一个元素 first(value): names|first 
+        取数字绝对值 abs(value):{{ -1|abs }} 
+        序列中最后一个元素 last(value): names|last
+        join(value,d=u''):将一个序列用d这个参数的值拼接成字符串.
+        safe(value):如果开启了全局转义,那么safe过滤器会将变量关掉转义.示例:content_html|safe.
+        int(value):将值转换为int类型.
+        float(value):将值转换为float类型.
+        lower(value):将字符串转换为小写.
+        upper(value):将字符串转换为小写.
+        replace(value,old,new): 替换将old替换为new的字符串.
+        truncate(value,length=255,killwords=False):截取length长度的字符串.
+        striptags(value):删除字符串中所有的HTML标签,如果出现多个空格,将替换成一个空格.
+        trim:截取字符串前面和后面的空白字符.
+        string(value):将变量转换成字符串.
+        wordcount(s):计算一个长字符串中单词的个数.
+    -->
+    {% endraw %}
+
+
+</body>
+
+</html>
