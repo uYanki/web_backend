@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- href 路径相对于根目录 -->
+    <!-- <link rel="stylesheet" href="/static/style.css">  -->
+
+    <!-- 反向解析出静态文件路径 -->
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+
+    <title>login</title>
+</head>
+
+<body>
+
+    {% if name %}
+    <h3>Hello {{ name }}!</h3>
+    {% else %}
+    <h3>Hello, JinJa2!</h3>
+    {% endif %}
+
+    <!-- <form action="/login/" method="post"> -->
+    <form action="#" method="post">
+        <div><input type="text" placeholder="username" name="usr"></div>
+        <div><input type="password" placeholder="password" name="pwd"></div>
+        <div><input type="submit"></div>
+    </form>
+
+    <div class="error">{{error}}</div>
+
+</body>
+
+</html>
