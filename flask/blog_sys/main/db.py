@@ -29,6 +29,6 @@ def get_db():
 
 def close_db(e):
     db = g.pop('db', None)
-    print('db.py - close_db')
+    # print('db.py - close_db')
     if db is not None:
         db.close()
