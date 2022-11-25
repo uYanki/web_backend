@@ -1,0 +1,37 @@
+<html lang="en">
+  <head>
+    <script src="https://cdn.bootcdn.net/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+    <title>socket.io</title>
+  </head>
+  <button onclick="send()">发送信息</button>
+  <body>
+    <script>
+      var socket = null;
+      function initWebSocket() {
+        socket = io.connect("ws://127.0.0.1:5000/echo", {
+          timeout: 300000,
+          reconnectionDelayMax: 1000,
+          reconnectionDelay: 500,
+        });
+        socket.on("connect", () => {
+          console.log("建立链接");
+          socket.emit("message", { data: "I'm connected!" });
+        });
+        socket.on("disconnect", () => {
+          console.log("连接断开");
+          socket.emit("message", { data: "I'm disconnected!" });
+        });
+        socket.on("echo", (msg) => {
+          // 接受信息
+          console.log("echo:" + msg["data"]);
+        });
+      }
+      function send() {
+        // 发送信息
+        socket.emit("message", { data: "hello, server" });
+      }
+
+      initWebSocket();
+    </script>
+  </body>
+</html>

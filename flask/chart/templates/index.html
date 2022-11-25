@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- <script src="{{ url_for('static',filename='js/vue.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/axios.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/echarts.min.js') }}"></script> -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.3.3-rc.1/echarts.min.js"></script>
+    <!-- 引入axios前需先引入jquery -->
+    <title>echart with flask</title>
+</head>
+
+<body>
+
+    <!-- flash 的模板语法 -->
+    <h1>{{in_title}}</h1>
+    <hr>
+
+    <!-- vue 显示数据(需使用raw解决flask与vue的模板语法冲突) -->
+    {% raw %}
+    <div id="app">
+    </div>
+    {% endraw %}
+
+    <!-- echarts 数据显示 -->
+    <div id="myChart" style="width:100vw;height:100vh;"></div>
+    <hr>
+
+    <script type="text/javascript">
+        let app = new Vue({
+            el: '#app',
+            data: {
+                lastest_data: 10,
+                option_data_x: [],
+                option_data_y: [],
+            },
+            created: function () {
+                setInterval(this.getNewData, 300);//定时器
+                this.getNewData();
+            },
+            methods: {
+                refreshEcharts: function () {
+                    let myChart = echarts.init(
+                        document.getElementById("myChart")
+                    );
+                    this.option = {
+                        animation: false,// 取消动画
+                        xAxis: {
+                            type: 'category',
+                            data: this.option_data_x
+                        },
+                        yAxis: {
+                            type: 'value',
+                            min: -100,
+                            max: 10000,
+                        },
+                        series: [{
+                            type: 'line',
+                            data: this.option_data_y,
+                            smooth: true,
+                            symbol: 'none',
+                            force: {
+                                layoutAnimation: false,// 取消动画
+                            },
+                            areaStyle: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                    {
+                                        offset: 0,
+                                        color: 'rgb(255, 158, 68)'
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: 'rgb(255, 70, 131)'
+                                    }
+                                ])
+                            },
+                        }],
+                        title: [{
+                            left: 'center',
+                            text: 'fft'
+                        }]
+                    }
+                    myChart.setOption(this.option);
+                },
+                getNewData: function () {
+                    let that = this;
+                    // axios.get('http://127.0.0.1:5000/api/mic')
+                    axios.get("http://uykweb.ifast3.vipnps.vip/api/mic")
+                        .then(function (res) {
+                            // console.log(res);
+                            data = res["data"];
+
+                            if (data["is_change"] == "1") {
+                                // 更新数据点
+                                console.log(2222)
+                                that.option_data_x = data["x"];
+                                that.option_data_y = data["y"];
+                                that.refreshEcharts(); // 刷新图表
+                            }
+
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

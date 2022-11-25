@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jinja2</title>
+</head>
+
+<body>
+
+    <h3>request</h3>
+    {{request}}<br>
+    method:{{request.method}}<br>
+    args:{{request.args}}<br>
+    <!-- args: http://127.0.0.1:5000/?page=10 -->
+
+    <h3>session</h3>
+    {{session}}<br>
+    {{session['_flashes']}}<br>
+
+    <h3>g</h3>
+    {{g}}<br>
+    param: {{g.name}}<br>
+    <h3>url_for</h3>
+    <a href="{{url_for('index')}}">page</a>
+    <h3>get_flashed_messages</h3>
+    {% for msg in get_flashed_messages() %}
+    {{msg}}
+    {% endfor %}
+
+    <h3>config</h3>
+    {% for k,v in config.items() %}
+    {{k}}:{{v}}<br>
+    {% endfor %}
+
+    <h3>autoescape</h3>
+    <!-- 禁用自动转义 -->
+    {% autoescape false %}
+    <p>autoescaping is disabled here</p>
+    <p>1.{{ style }}</p>
+    {% endautoescape %}
+    <!-- 自动转义:将</>等字符转义 -->
+    <p>2.{{ style }}</p>
+    <!-- 过滤器显式标记字符串为安全的HTML -->
+    <p>3.{{ style|safe}}</p>
+
+
+    <h3>custom filter</h3>
+    <!-- 自定义过滤器 -->
+    <p>默认过滤器: {{g.name|upper}}</p>
+    <p>自定义过滤器: {{g.name|lower|dblstr}}</p>
+
+    <h3>context processor</h3>
+    <!-- 环境处理器 -->
+    <p>{{user.name}}</p>
+    <p>{{user.age}}</p>
+    <p>{{format_price(20.333)}}</p>
+
+</body>
+
+</html>

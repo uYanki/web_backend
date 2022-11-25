@@ -1,0 +1,4 @@
+include main/schema.sql
+graft main/static
+graft main/templates
+global-exclude *.pyc
